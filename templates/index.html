@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Semantic Search Engine</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  	<div class="jumbotron">
+        	<h1 style="text-align: center;">Semantic Search Engine</h1>      
+  	</div>
+  	<div class="container">
+	  	<form action="/search-engine" method="post">
+	       <div class="row"> 
+	       	<div class="col-md-8">
+	       	 {% if data %}
+	       	   <input type="text" class="form-control" id="query" name="query" value="{{ data['query'] }}">
+	       	   {% else %}
+	       	    <input type="text" class="form-control" id="query" name="query">
+	       	 {% endif %}
+	        </div>
+	        <div class="col-md-4">
+	         <button type="submit" class="btn btn-default">SEARCH</button>
+	        </div>
+	     </div>
+	    </form>
+	    {% if data %}
+	    	<h3>Showing most relevant results :</h3>
+	    	   <br>
+	    	{% if data['result'] %}
+	    		<table class="table table-hover">
+    				<thead>
+      				  <tr>
+        				<th>Product Description</th>
+        				<th>Brand Name</th>
+        				<th>Grammage</th>
+        				<th>Discount</th>
+        				<th>MRP</th>
+        				<th>Special Offer</th>
+      				  </tr>
+        			</thead>
+        			<tbody>
+        				{% for index, item in data['result'].iterrows %}
+        				  <tr>
+       						 <td>{{ item["Product Description"] }}</td>
+       						 <td>{{ item["Brand Name"] }}</td>
+       						 <td>{{ item["Grammage"] }}</td>
+       						 <td>{{ item["Discount"] }}</td>
+       						 <td>{{ item["MRP"] }}</td>
+       						 <td>{{ item["Special Offer"] }}</td>
+      				      </tr>
+        				{% endfor %}
+      				</tbody>
+              </table>
+	    	{% else %}
+	    	    <h4>Oops,no result found</h4>
+	    	{% endif %}
+	    {% endif %}
+    </div>
+</body>
+</html>

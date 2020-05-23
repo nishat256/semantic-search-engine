@@ -1,0 +1,4 @@
+data/elmo_3/*
+data/ner.csv
+__pycache__
+.ipynb_checkpoints
