@@ -1,8 +1,9 @@
 import re
+import sys
+import numpy as np
 from build_model import load_model
 from semantic_search import fetch_top_n_records_from_db, apply_filter
 
-new_model = load_model()
 idx2tag = {0: 'B-PROD', 1: 'I-PROD', 2: 'B-BRAND', 3: 'D-LESS', 4: 'B-QUAN', 5: 'B-DISC', 6: 'P-MORE',
            7: 'I-BRAND', 8: 'B-PRICE', 9: 'D-MORE', 10: 'P-LESS', 11: 'P-PRICE', 12: 'O'}
 
@@ -18,6 +19,7 @@ def make_prediction(query):
       except:
         new_seq.append("PADword")
     new_X.append(new_seq)
+  new_model = load_model()
   pred = new_model.predict(np.array(new_X))[0]
   pred = np.argmax(pred,axis=-1)
   pred_tags = []
@@ -26,6 +28,16 @@ def make_prediction(query):
   return pred_tags
 
 def name_entity_recognition(query):
+    if len(query.split()) <=2 :
+      return {"prod_desc": query,
+              "price_less":None,
+              "price_more":None,
+              "quantity":None,
+              "price":None,
+              "discount":None,
+              "discount_less":None,
+              "discount_more":None,
+              "brand":None}
     prediction = make_prediction(query)
     prod_desc = ""
     price = None
@@ -79,8 +91,9 @@ def main(query):
   response = apply_filter(response.dropna(),ner_response)
   if response.empty:
     return False
-  return response
+  return response.T.to_dict().values()
 
 if __name__ == "__main__":
-  prediction = name_entity_recognition("my name is nishat and I want detergent soap with price less than 900 rupees")
-  print(prediction)
+  prediction = list(main(sys.argv[1]))
+  with open('result.txt','w') as fo:
+    fo.write(str(prediction))

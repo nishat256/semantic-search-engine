@@ -7,7 +7,7 @@ from keras.layers import LSTM,Bidirectional,Dense,TimeDistributed,Embedding,Inpu
 
 sess = tf.Session()
 K.set_session(sess)
-elmo_model = hub.Module("data/elmo_3", trainable=False)
+elmo_model = hub.Module("https://tfhub.dev/google/elmo/3", trainable=False)
 sess.run(tf.global_variables_initializer())
 sess.run(tf.tables_initializer())
 batch_size = 2

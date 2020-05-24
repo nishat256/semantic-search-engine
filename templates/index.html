@@ -43,7 +43,7 @@
       				  </tr>
         			</thead>
         			<tbody>
-        				{% for index, item in data['result'].iterrows %}
+        				{% for item in data['result'] %}
         				  <tr>
        						 <td>{{ item["Product Description"] }}</td>
        						 <td>{{ item["Brand Name"] }}</td>

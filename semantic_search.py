@@ -1,11 +1,8 @@
 import numpy as np 
 import pandas as pd
-from build_model import elmo_model
+import tensorflow as tf
+from build_model import elmo_model, sess
 from sklearn.metrics.pairwise import cosine_similarity
-
-df_preprocessed_data = pd.read_csv('data/processed_data.csv')
-vectors = df_preprocessed[[str(i) for i in range(1024)]]
-vectors_array = vectors.values
 
 df_data = pd.read_csv('data/processed_data.csv')
 vectors = df_data[[str(i) for i in range(1024)]]
